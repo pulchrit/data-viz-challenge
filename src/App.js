@@ -1,32 +1,66 @@
-import React from 'react';
-import Header from './Header';
-import BarChart from './BarChart';
+import React, { useState, useEffect } from 'react';
 import csvData from './data/GBD_2017_death_rate_opioid_use_disorders_all_ages.csv';
+import { csv }from 'd3';
+import Header from './Header';
+import Nav from './Nav';
+import Content from './Content';
+import Description from './Description';
+import { formatChartData, sortByTotalDeaths, getYearRange } from './data/processData';
 import './App.css';
 
 const App = () =>  {
   
-  const size = {width: 1000, height: 700, padding: 50};
+  // Set data and error in state.
+  const [chartData, setChartData] = useState([]);
+  const [isError, setIsError] = useState(''); 
+  const [activeButton, setActiveButton] = useState('bar');
 
-  const data = async () => await d3.csv(csvData);
+  // Get raw data from csv file and process it.
+  const getData = async (csvFile) => {
+    try {
+        const rawData = await csv(csvFile);
+        const formattedData = formatChartData(rawData);
+        const sortedData = formattedData.sort(sortByTotalDeaths);
+        setChartData(sortedData);
 
-  console.log(data);
+    } catch(error) {
+        setIsError('There was an error processing the csv file.');
+    };
+  }
 
+  // Get data as side effect.
+  useEffect( () => {
+    getData(csvData)
+  }, []);
   
-  
+  // Get year range for all countries. 
+  // Individual countries may vary.
+  const yearRangeAll = getYearRange(chartData);
+    
+  console.log(chartData);
+
+
   return (
     <div className="App">
 
-        {/* Simple chart title. */}
         <Header />
 
-        <BarChart size={size} data={data}
+        {!isError ? '' : <div className = "error">{isError}</div>}
 
+        <Nav 
+          activeButton={activeButton}
+          onButtonChange={setActiveButton}
         />
-        
-        
 
-        
+        <main className="main-content">
+          <Content 
+            chart={activeButton} 
+            chartData={chartData}
+          />
+        </main>
+
+        <Description 
+          yearRangeAll={yearRangeAll}/>
     </div>
   );
 }

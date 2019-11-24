@@ -1,0 +1,17 @@
+.tooltip {
+    background-color: #e7f5fe;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.tooltip h6 {
+    padding: 0;
+    margin: 0;
+}
+
+.tip-data {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: .65em;
+}
