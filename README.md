@@ -3,6 +3,7 @@
 ## M. Lafranchise Data Viz Challenge
 
 ### Question: What population is most affected by opioid disorders?
+Users can view data sorted by number of deaths or by country.
 
 #### Assumptions: 
 - Population is defined as inhabitants of a country.
