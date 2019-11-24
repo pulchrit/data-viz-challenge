@@ -24,6 +24,12 @@ const BarChart = ({ chartData }) => {
             // Access ref (svg.g) to place chart inside. 
             const barChart = d3.select(barRef.current);
 
+            
+            
+            const chartGroup = barChart.append('g')
+                .attr('transform', 'translate(0,0)')
+                .attr('id', 'chartGroup');
+
             // Define xScale as linear for # of deaths.
             const xScale = d3.scaleLinear()
                 .domain([0, d3.max(chartData, (d) => d.bothUpper)]).clamp(true).nice()
@@ -36,7 +42,8 @@ const BarChart = ({ chartData }) => {
                 .padding(.05);
     
             // Append bottom x axis (# of deaths).
-            barChart.append('g')
+            chartGroup.append('g')
+            //barChart.append('g')
                 .attr('transform', `translate(0, ${height - padding})`)
                 .attr('class', 'axis')
                 .call(
@@ -45,7 +52,8 @@ const BarChart = ({ chartData }) => {
                 );
     
             // Append top x axis (# of deaths).
-            barChart.append('g')
+            chartGroup.append('g')
+            //barChart.append('g')
                 .attr('transform', `translate(0, ${padding})`)
                 .attr('class', 'axis')
                 .call(
@@ -54,27 +62,31 @@ const BarChart = ({ chartData }) => {
                 );
     
             // Append y axis
-            barChart.append('g')
+            chartGroup.append('g')
+            //barChart.append('g')
                     .attr('transform', `translate(${leftPadding}, 0)`)
                     .attr('class', 'axis')
                     .call(d3.axisLeft(yScale));
             
             // Append top axis label.
-            barChart.append('text')
+            chartGroup.append('text')
+            //barChart.append('text')
                 .attr('transform', `translate(${((width - leftPadding - padding)/2) + leftPadding}, ${padding/2})`)
                 .attr('class', 'x-labels')
                 .style('text-anchor', 'middle')
                 .text('Number of deaths per 100,000 people')
     
             // Append bottom axis label.
-            barChart.append('text')
+            chartGroup.append('text')
+            //barChart.append('text')
                 .attr('transform', `translate(${((width - leftPadding - padding)/2) + leftPadding}, ${height - padding/2})`)
                 .attr('class', 'x-labels')
                 .style('text-anchor', 'middle')
                 .text('Number of deaths per 100,000 people')
                 
             // Add bars/rects to chart. 
-            barChart.append('g')
+            chartGroup.append('g')
+            //barChart.append('g')
                 .selectAll('rect')
                 .data(chartData)
                 .join('rect')
@@ -95,7 +107,8 @@ const BarChart = ({ chartData }) => {
                 .on('mouseout', (d) => setTooltip(null))
     
             // Add error bars to chart.
-            barChart.append('g')
+            chartGroup.append('g')
+            //barChart.append('g')
                 .selectAll('line')
                 .data(chartData)
                 .join('line')
@@ -107,7 +120,9 @@ const BarChart = ({ chartData }) => {
                 .attr('stroke-width', '2px')
                 .attr('stroke-linecap', 'round');
         }
-
+       
+        d3.select('#chartGroup').remove();
+       
         drawBarChart(chartData);
 
     }, [chartData]);
@@ -118,15 +133,16 @@ const BarChart = ({ chartData }) => {
             className="svgChart"
             width={width} 
             height={height}
+            ref={barRef}
             // This makes the chart technically responsive, but there must be 
             // another better, more readable way to manage it.
             viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="xMidYMid meet"
         >
-            <g 
+           {/*  <g 
                 ref={barRef}
                 transform={`translate(0, 0)`}
-            />
+            /> */}
 
             {tooltip && 
                 <Tooltip 

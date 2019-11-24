@@ -1,24 +1,21 @@
 import { extent } from 'd3';
 
-
-
-// Sort by country name.
-// TODO: Add interactivity, allow users to sort by country.
-const sortByLocation = (a, b) => {
-    if (a.location > b.location) {
-        return 1;
-    } else if (a.location < b.location) {
-        return -1;
-    }
-    return 0;
-}
-
 // Sort by number of deaths.
 const sortByTotalDeaths = (a, b) => {
     if (a.bothMean > b.bothMean) {
         return -1;
     } else if (a.bothMean < b.bothMean) {
         return 1;
+    }
+    return 0;
+}
+
+// Sort by country name.
+const sortByLocation = (a, b) => {
+    if (a.location > b.location) {
+        return 1;
+    } else if (a.location < b.location) {
+        return -1;
     }
     return 0;
 }
@@ -61,13 +58,13 @@ const formatChartData = (rawData) => {
             accum.maleUpper = (accum.maleUpper || 0) + upperFloat;
             accum.maleLower = (accum.maleLower || 0) + lowerFloat;
         
-            // Combine # of death values for females
+        // Combine # of death values for females
         } else if (sex === 'Female') {
             accum.femaleMean = (accum.femaleMean || 0) + meanFloat;
             accum.femaleUpper = (accum.femaleUpper || 0) + upperFloat;
             accum.femaleLower = (accum.femaleLower || 0) + lowerFloat;
         
-            // Combine # of death values for both
+        // Combine # of death values for both
         } else if (sex === 'Both') {
             accum.bothMean = (accum.bothMean || 0) + meanFloat;
             accum.bothUpper = (accum.bothUpper || 0) + upperFloat;
@@ -83,9 +80,8 @@ const formatChartData = (rawData) => {
         }, {})
     });
 
-    //return chartData.sort(sortByLocation);
-    //return chartData.sort(sortByTotalDeaths);
     return chartData;
+    
 }
 
 const getYearRange = (data) => {
@@ -101,8 +97,8 @@ const getYearRange = (data) => {
 
 export { 
     formatChartData, 
-    getYearRange,
+    sortByTotalDeaths, 
     sortByLocation, 
-    sortByTotalDeaths
+    getYearRange 
 };
 

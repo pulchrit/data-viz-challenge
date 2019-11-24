@@ -12,7 +12,7 @@ const NavItem = ({ activeButton, onButtonChange, buttonName }) => {
     return (
         <button
             className={itemClass(buttonName)}
-            onButtonChange={ () => onButtonChange(buttonName)}>
+            onClick={ (e) => onButtonChange(buttonName)}>
             {buttonName}
         </button>
     )

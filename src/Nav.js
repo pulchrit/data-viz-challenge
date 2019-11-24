@@ -9,13 +9,13 @@ const Nav = ({ activeButton, onButtonChange }) => {
             <NavItem
                 activeButton={activeButton}
                 onButtonChange={onButtonChange}
-                buttonName="View bar chart"
+                buttonName="View by number of deaths"
             />
 
             <NavItem
                 activeButton={activeButton}
                 onButtonChange={onButtonChange}
-                buttonName="View map"
+                buttonName="View by location"
             />
         </nav>
     )
