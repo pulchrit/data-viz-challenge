@@ -18,7 +18,7 @@ const Description = ({ yearRangeAll }) => {
                 <ul className="description-title">
                     <li>Population is defined as inhabitants of a country.</li>
                     <li>Opioid deaths are shown as number of opioid deaths per 100,000 deaths, cumulative for the period {yearRangeAll[0]} - {yearRangeAll[1]}.</li>
-                    <li>Mean number of deaths for both sexes is plotted along with upper and lower uncertainty boundaries.</li>
+                    <li>Mean number of deaths for both sexes is plotted along with upper and lower uncertainty boundaries as error bars.</li>
                     <li>Data specific to males and females is shown when data points are hovered over.</li>
                 </ul>
         </div>
