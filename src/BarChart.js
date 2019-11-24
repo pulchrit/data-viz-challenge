@@ -13,19 +13,15 @@ const BarChart = ({ chartData }) => {
     // Get access to DOM for svg.g. Will create chart here.
     const barRef = useRef();
 
-   
-    // I'm doing something incorrectly with the render because 
-    // the chart is rendering twice. Maybe I need to look into 
-    // performance optimizers in React.
+    // Need to investigate performance optimizers in React, because 
+    // I think they could be of benefit here.
     useEffect( () => {
 
-        const drawBarChart = (data) => {
+        const drawBarChart = (chartData) => {
 
             // Access ref (svg.g) to place chart inside. 
             const barChart = d3.select(barRef.current);
 
-            
-            
             const chartGroup = barChart.append('g')
                 .attr('transform', 'translate(0,0)')
                 .attr('id', 'chartGroup');
@@ -43,7 +39,6 @@ const BarChart = ({ chartData }) => {
     
             // Append bottom x axis (# of deaths).
             chartGroup.append('g')
-            //barChart.append('g')
                 .attr('transform', `translate(0, ${height - padding})`)
                 .attr('class', 'axis')
                 .call(
@@ -53,7 +48,6 @@ const BarChart = ({ chartData }) => {
     
             // Append top x axis (# of deaths).
             chartGroup.append('g')
-            //barChart.append('g')
                 .attr('transform', `translate(0, ${padding})`)
                 .attr('class', 'axis')
                 .call(
@@ -63,14 +57,12 @@ const BarChart = ({ chartData }) => {
     
             // Append y axis
             chartGroup.append('g')
-            //barChart.append('g')
-                    .attr('transform', `translate(${leftPadding}, 0)`)
-                    .attr('class', 'axis')
-                    .call(d3.axisLeft(yScale));
+                .attr('transform', `translate(${leftPadding}, 0)`)
+                .attr('class', 'axis')
+                .call(d3.axisLeft(yScale));
             
             // Append top axis label.
             chartGroup.append('text')
-            //barChart.append('text')
                 .attr('transform', `translate(${((width - leftPadding - padding)/2) + leftPadding}, ${padding/2})`)
                 .attr('class', 'x-labels')
                 .style('text-anchor', 'middle')
@@ -78,7 +70,6 @@ const BarChart = ({ chartData }) => {
     
             // Append bottom axis label.
             chartGroup.append('text')
-            //barChart.append('text')
                 .attr('transform', `translate(${((width - leftPadding - padding)/2) + leftPadding}, ${height - padding/2})`)
                 .attr('class', 'x-labels')
                 .style('text-anchor', 'middle')
@@ -86,7 +77,6 @@ const BarChart = ({ chartData }) => {
                 
             // Add bars/rects to chart. 
             chartGroup.append('g')
-            //barChart.append('g')
                 .selectAll('rect')
                 .data(chartData)
                 .join('rect')
@@ -108,7 +98,6 @@ const BarChart = ({ chartData }) => {
     
             // Add error bars to chart.
             chartGroup.append('g')
-            //barChart.append('g')
                 .selectAll('line')
                 .data(chartData)
                 .join('line')
@@ -134,15 +123,11 @@ const BarChart = ({ chartData }) => {
             width={width} 
             height={height}
             ref={barRef}
-            // This makes the chart technically responsive, but there must be 
+            // This makes the chart *technically* responsive, but there must be 
             // another better, more readable way to manage it.
             viewBox={`0 0 ${width} ${height}`}
             preserveAspectRatio="xMidYMid meet"
         >
-           {/*  <g 
-                ref={barRef}
-                transform={`translate(0, 0)`}
-            /> */}
 
             {tooltip && 
                 <Tooltip 

@@ -10,8 +10,9 @@ import './App.css';
 
 const App = () =>  {
   
-  // Set data and error in state.
+  // Set unsorted data and error in state.
   const [chartData, setChartData] = useState([]);
+  const [isError, setIsError] = useState(''); 
 
   // Get raw data from csv file and process it.
   const getData = async (csvFile) => {
@@ -19,55 +20,33 @@ const App = () =>  {
         const rawData = await csv(csvFile);
         const formattedData = formatChartData(rawData);
         setChartData(formattedData);
-        //const sortedDataByDeath = formattedData.sort(sortByTotalDeaths);
-        //setChartDataByDeath(sortedDataByDeath);
-        //console.log('sortedDAtaBydeath', sortedDataByDeath);
-        //const sortedDataByLocation = formattedData.sort(sortByLocation);
-       // setChartDataByLocation(sortedDataByLocation);
     } catch(error) {
         setIsError('There was an error processing the csv file.');
     };
   }
 
-  // Get data as side effect.
+  // Get data.
   useEffect( () => {
     getData(csvData)
- // }, [setChartDataByDeath, setChartDataByLocation]);
   }, []);
 
   // Sort data. 
   const sortData = (chartData) => {
-    //setChartDataByDeath(chartData = chartData.sort(sortByTotalDeaths));
-    //setChartDataByLocation(chartData = chartData.sort(sortByLocation));
+    //sort() sorts array in place, need to get copy first, then sort.
     const sortedByDeaths = [...chartData].sort(sortByTotalDeaths);
     const sortedByLocation = [...chartData].sort(sortByLocation);
-    console.log('sortdeaths in sort data', sortedByDeaths);
-    console.log('sortedLocation in sort data', sortedByLocation);
     return [sortedByDeaths, sortedByLocation];
-    
   }
  
-  //const [chartDataByDeath, setChartDataByDeath] = useState([]);
-  //const [chartDataByLocation, setChartDataByLocation] = useState([]);
+  // Set sorted data and active button in state.
   const [sortedData, setSortedData] = useState(chartData.sort(sortByTotalDeaths));
-  const [isError, setIsError] = useState(''); 
   const [activeButton, setActiveButton] = useState('View by number of deaths');
 
   const handleButtonChange = (buttonName) => {
-    /* setSortedData(sorted => {
-      activeButton === 'View by number of deaths' 
-      ? sorted = chartDataByDeath
-      : sorted = chartDataByLocation; 
-      }
-    );  */
-
-    setActiveButton(button => button = buttonName);
-   /*  setSortedData(buttonName === 'View by number of deaths' 
-      ? sortedByDeaths 
-      : sortedByLocation) */
-    
+    setActiveButton(buttonName);
   }
 
+  // Sort data.
   useEffect( () => {
     const sorted = sortData(chartData);
     setSortedData(activeButton === 'View by number of deaths' ? sorted[0] : sorted[1])
@@ -75,18 +54,7 @@ const App = () =>  {
   
   // Get year range for all countries. 
   // Individual countries may vary.
-  //const yearRangeAll = getYearRange(chartDataByDeath);
   const yearRangeAll = getYearRange(chartData);
-
-  /* const sortedChartData = activeButton === 'View by number of deaths' 
-    ? chartData.sort(sortByTotalDeaths) 
-    : chartData.sort(sortByLocation);
- */
-  console.log('activeButton', activeButton);
-  console.log('sortedData from state', sortedData);
-    
-  //console.log('bydeath', chartDataByDeath);
-  //console.log('bylocation', chartDataByLocation);
 
 
   return (
@@ -103,13 +71,8 @@ const App = () =>  {
 
         <main className="main-content">
           <BarChart 
-            //chartData={activeButton === 'View by number of deaths' ? chartDataByDeath : chartDataByLocation}
             chartData={sortedData}
           />
-          {/* <Content 
-            chart={activeButton} 
-            chartData={chartData}
-          /> */}
         </main>
 
         <Description 
